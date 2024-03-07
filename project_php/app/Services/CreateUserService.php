@@ -4,24 +4,27 @@ namespace App\Services;
 
 use App\Exceptions\AppError;
 use App\Models\User;
-use Error;
+use Illuminate\Support\Facades\Log;
+
+// $data = [
+//     'email' => 'tsunode@mail.com'
+// ]
 
 class CreateUserService {
-    public function execute(array $data){
+    public function execute(array $data) {
 
         $userFound = User::firstWhere('email', $data['email']);
 
-        if(!is_null($userFound)){
+        if(!is_null($userFound)) {
             throw new AppError('Email já cadastrado', 400);
         }
 
         $userFound = User::firstWhere('cpf', $data['cpf']);
 
-        if(!is_null($userFound)){
+        if(!is_null($userFound)) {
             throw new AppError('CPF já cadastrado', 400);
         }
 
-
-        return User:: create($data);
+        return User::create($data);
     }
 }
